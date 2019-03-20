@@ -1,13 +1,15 @@
 <?php
 /*
  * First authored by Brian Cray
+ * Rewritten for PHP 7 by Warren Myers Mar 2019
+ * Contact updater at https://warrenmyers.com
  * License: http://creativecommons.org/licenses/by/3.0/
  * Contact the author at http://briancray.com/
  */
  
 ini_set('display_errors', 0);
 
-$url_to_shorten = get_magic_quotes_gpc() ? stripslashes(trim($_REQUEST['longurl'])) : trim($_REQUEST['longurl']);
+$url_to_shorten = get_magic_quotes_gpc() ? stripslashes(trim($_GET['longurl'])) : trim($_GET['longurl']);
 
 if(!empty($url_to_shorten) && preg_match('|^https?://|', $url_to_shorten))
 {
@@ -31,35 +33,31 @@ if(!empty($url_to_shorten) && preg_match('|^https?://|', $url_to_shorten))
 		if($response_status == '404')
 		{
 			die('Not a valid URL');
-		}
-		
+		}		
 	}
 	
 	// check if the URL has already been shortened
-	$already_shortened = mysql_result(mysql_query('SELECT id FROM ' . DB_TABLE. ' WHERE long_url="' . mysql_real_escape_string($url_to_shorten) . '"'), 0, 0);
-	if(!empty($already_shortened))
+	$results = mysqli_query($dbconn, 'SELECT id FROM ' . DB_TABLE. ' WHERE long_url="' . mysqli_real_escape_string($dbconn, $url_to_shorten) . '"');
+	$row = mysqli_fetch_assoc($results);
+
+	if($row['id'])
 	{
 		// URL has already been shortened
-		$shortened_url = getShortenedURLFromID($already_shortened);
+		$shortened_url = $row['short'];
 	}
 	else
 	{
 		// URL not in database, insert
-		mysql_query('LOCK TABLES ' . DB_TABLE . ' WRITE;');
-		mysql_query('INSERT INTO ' . DB_TABLE . ' (long_url, created, creator) VALUES ("' . mysql_real_escape_string($url_to_shorten) . '", "' . time() . '", "' . mysql_real_escape_string($_SERVER['REMOTE_ADDR']) . '")');
-		$shortened_url = getShortenedURLFromID(mysql_insert_id());
-		mysql_query('UNLOCK TABLES');
+		    $url_to_shorten = mysqli_real_escape_string($dbconn, $url_to_shorten);
+		mysqli_query($dbconn, 'LOCK TABLES ' . DB_TABLE . ' WRITE;');
+		mysqli_query($dbconn, 'INSERT INTO ' . DB_TABLE . ' (long_url, created, creator) VALUES ("' . $url_to_shorten . '", "' . time() . '", "' . mysqli_real_escape_string($dbconn, $_SERVER['REMOTE_ADDR']) . '")');
+		$miid = mysqli_insert_id($dbconn);
+		$shortened_url = trim(base64_encode($miid),"=");
+		mysqli_query($dbconn, "UPDATE shurl SET short='$shortened_url' WHERE id=$miid");
+		mysqli_query($dbconn, 'UNLOCK TABLES');
 	}
 	echo BASE_HREF . $shortened_url;
+	mysqli_close($dbconn);
 }
 
-function getShortenedURLFromID ($integer, $base = ALLOWED_CHARS)
-{
-	$length = strlen($base);
-	while($integer > $length - 1)
-	{
-		$out = $base[fmod($integer, $length)] . $out;
-		$integer = floor( $integer / $length );
-	}
-	return $base[$integer] . $out;
-}
+?>

@@ -1,14 +1,13 @@
 -- 
--- Table structure for table `shortenedurls`
+-- Table structure for table `shurl`
 -- 
 
-CREATE TABLE `shortenedurls` (
+CREATE TABLE `shurl` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `long_url` varchar(255) NOT NULL,
+  `short` varchar(255) NOT NULL UNIQUE,
+  `long_url` varchar(768) NOT NULL UNIQUE,
   `created` int(10) unsigned NOT NULL,
   `creator` char(15) NOT NULL,
   `referrals` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `long` (`long_url`),
-  KEY `referrals` (`referrals`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-<title>URL shortener</title>
+<title>| URL shortener</title>
 <meta name="robots" content="noindex, nofollow">
 </html>
 <body>
-<form method="post" action="shorten.php" id="shortener">
+
+
+<form method="post" action="shorten.php" id="shortener" align="center">
 <label for="longurl">URL to shorten</label> <input type="text" name="longurl" id="longurl"> <input type="submit" value="Shorten">
 </form>
-</form>
+</center>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script>
 $(function () {
