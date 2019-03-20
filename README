@@ -2,7 +2,6 @@ License: http://www.gnu.org/licenses/gpl-2.0.html
 
 Benefits
 
-- Can shorten over 42 billion unique URLs in 6 or less characters (it can do more than 12,000,000 in only 4!)
 - Super duper fast—uses very little server resources
 - Includes an API so you can create your own short URLs on the fly
 - Option to limit usage to 1 IP address for personal use and to prevent spamming from others
