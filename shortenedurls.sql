@@ -4,7 +4,7 @@
 
 CREATE TABLE `shurl` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `short` varchar(255) NOT NULL UNIQUE,
+  `short` varchar(33) NOT NULL UNIQUE,
   `long_url` varchar(768) NOT NULL UNIQUE,
   `created` int(10) unsigned NOT NULL,
   `creator` char(15) NOT NULL,
