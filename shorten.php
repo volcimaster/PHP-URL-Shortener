@@ -9,7 +9,7 @@
  
 ini_set('display_errors', 0);
 
-$url_to_shorten = get_magic_quotes_gpc() ? stripslashes(trim($_GET['longurl'])) : trim($_GET['longurl']);
+$url_to_shorten = trim($_GET['longurl']);
 
 if(!empty($url_to_shorten) && preg_match('|^https?://|', $url_to_shorten))
 {
