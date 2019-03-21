@@ -53,7 +53,7 @@ if(!empty($url_to_shorten) && preg_match('|^https?://|', $url_to_shorten))
 		mysqli_query($dbconn, 'INSERT INTO ' . DB_TABLE . ' (long_url, created, creator) VALUES ("' . $url_to_shorten . '", "' . time() . '", "' . mysqli_real_escape_string($dbconn, $_SERVER['REMOTE_ADDR']) . '")');
 		$miid = mysqli_insert_id($dbconn);
 		$shortened_url = trim(base64_encode($miid),"=");
-		mysqli_query($dbconn, "UPDATE shurl SET short='$shortened_url' WHERE id=$miid");
+		mysqli_query($dbconn, "UPDATE" . DB_TABLE . " SET short='$shortened_url' WHERE id=$miid");
 		mysqli_query($dbconn, 'UNLOCK TABLES');
 	}
 	echo BASE_HREF . $shortened_url;
