@@ -9,7 +9,7 @@
 
 ini_set('display_errors', 1);
 
-if(!preg_match('|^[0-9a-zA-Z]{1,6}$|', $_GET['url']))
+if(!preg_match('|^[0-9a-zA-Z]{1,32}$|', $_GET['url']))
 {
 	die('That is not a valid short url');
 }
