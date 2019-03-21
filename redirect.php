@@ -7,7 +7,7 @@
  * Contact the author at http://briancray.com/
  */
 
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 if(!preg_match('|^[0-9a-zA-Z]{1,32}$|', $_GET['url']))
 {
