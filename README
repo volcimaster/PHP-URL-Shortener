@@ -2,11 +2,11 @@ License: http://www.gnu.org/licenses/gpl-2.0.html
 
 Benefits
 
-- Super duper fast—uses very little server resources
+- Super fast - uses very little server resources
 - Includes an API so you can create your own short URLs on the fly
 - Option to limit usage to 1 IP address for personal use and to prevent spamming from others
-- Only uses alphanumeric characters so all browsers can interpret the URL (base64)
-- Secure—several data filters in place to prevent SQL injection hacks
+- Only uses alphanumeric characters so all browsers can interpret the URL (base36)
+- Secure — several data filters in place to prevent SQL injection hacks
 - Option to check if the URL is real (doesn’t respond with a 404) before shortening
 - Uses 301 redirects for SEO and analytics yumminess
 
