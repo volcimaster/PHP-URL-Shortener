@@ -7,7 +7,7 @@
  * Contact the author at http://briancray.com/
  */
 
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 if(!preg_match('|^[0-9a-zA-Z]{1,32}$|', $_GET['url']))
 {
@@ -16,8 +16,8 @@ if(!preg_match('|^[0-9a-zA-Z]{1,32}$|', $_GET['url']))
 
 require('config.php');
 
-$shortened_id = $_GET['url'];
-$results = mysqli_query($dbconn, "SELECT long_url FROM " . DB_TABLE . " WHERE short='$shortened_id'");
+$id = base_convert($_GET['url'],36,10);
+$results = mysqli_query($dbconn, "SELECT long_url FROM " . DB_TABLE . " WHERE id='$id'");
 $long_url = mysqli_fetch_assoc($results)['long_url'];
 mysqli_close($dbconn);
 
